@@ -101,6 +101,31 @@ $$
 
 Gym方程环境程序中需要注意两个地方：
 * 方程中$\theta$表示摆杆与竖直向下方向夹角，而程序中`theta`表示摆杆与竖直向下方向夹角，需要修改计算$\ddot{\theta}(k)$时为$(g\sin\theta(k-1) - \dots$，即第一项没有负号；
+
+$$
+\begin{cases}
+\ddot{\phi}(k)=(-g\sin\phi(k-1) - t\cos\phi(k-1)) / (\frac{I}{m} + l - \frac{ml\cos^2\phi(k-1)}{(M+m)})
+\\
+\ddot{x}(k)= t - \frac{ml\ddot{\phi}(k)\cos\phi(k-1)}{M+m}
+\end{cases}
+$$
+
+$$
+t=\frac{F(k) + ml[\dot{\phi}(k-1)]^2\sin\phi(k-1) - b\dot{x}(k-1)}{M+m}
+$$
+
+$$
+\begin{cases}
+x(k)=x(k-1)+\Delta t\cdot\dot{x}(k-1)
+\\
+\dot{x}(k)=\dot{x}(k-1)+\Delta t\cdot \ddot{x}(k)
+\\
+\phi(k)=\phi(k-1)+\Delta t\cdot\dot{\phi}(k-1)
+\\
+\dot{\phi}(k)=\dot{\phi}(k-1)+\Delta t\cdot\ddot{\phi}(k)
+\end{cases}
+$$
+
 * 使用增量方式计算`theta`时，在$\pi$也就是摆杆竖直向下附件需要考虑跳变，程序中`theta`(即图中$\phi$)数值对应的位置图示如下图2所示，
 <center>
     <img style="border-radius: 0.3125em;
@@ -169,7 +194,7 @@ $$
 * 基于状态反馈的动态LQR控制，按如下方式进行控制预测和实际控制：假设当前为k时刻，已知观测状态$X(k)$，以LQR控制时长T进行控制预测，但实际应用于控制的序列为前t步，即到k+t时刻则基于当时的观测状态$X(k+t)$再进行LQR控制预测之后k+t+1到k+t+T的控制输出，取T=100，t=15。
 
 ## 控制结果
-由于是对非线性状态方程在**摆杆竖直向上附近线性化**得到的表达式进行LQR控制，因此选择初始状态时摆杆偏离竖直向上方向一个较小的值，经测试当初始状态$\phi(0)\in [-0.2\pi, 0.2\pi]$时，均可稳定收敛，$\phi(0)=0.2\pi$的结果如下所示：
+由于是对非线性状态方程在**摆杆竖直向上附近线性化**得到的表达式进行LQR控制，因此选择初始状态时摆杆偏离竖直向上方向一个较小的值，经测试当初始状态$\phi(0)\in [-0.2\pi, 0.2\pi]$时，均可稳定收敛，$\phi(0)=0.2\pi$, $X_0=[\begin{array}{cccc}0 & 0 & 0.2\pi & 0\end{array}]^T$的结果如下所示：
 <center>
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 

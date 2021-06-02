@@ -113,7 +113,7 @@ class CartPoleContinuousEnv(gym.Env):
         return self.state, reward, done, {}
 
     def _reset(self):
-        self.state = np.array([0.0, 0.0, 0.2 * np.pi, 0.0])
+        self.state = np.array([-5.0, 0.0, 0.3 * np.pi, 0.0])
         self.steps_beyond_done = None
         return np.array(self.state)
 
