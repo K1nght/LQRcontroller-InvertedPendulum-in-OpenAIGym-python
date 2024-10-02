@@ -37,7 +37,7 @@ This will execute the LQR controller in the Inverted Pendulum environment and di
 
 The simplified model of the first-order inverted pendulum system is shown in Figure 1. This model consists of a cart moving horizontally and a connected single pendulum. Some physical parameters are listed in the table below.
 
-(*Note: In the figure, $\theta$ is the angle between the pendulum and the vertical downward direction. In the code, `theta` represents the angle between the pendulum and the vertical upward direction, which is the same as $\phi$ in the following derivation. The pendulum mass is uniformly distributed, with the center of mass at the center of the pendulum.*)
+(Note: In the figure, $\theta$ is the angle between the pendulum and the vertical downward direction. In the code, `theta` represents the angle between the pendulum and the vertical upward direction, which is the same as $\phi$ in the following derivation. The pendulum mass is uniformly distributed, with the center of mass at the center of the pendulum.)
 
 <p align="center">
   <img src="./figures/system%20model.jpg" alt="Figure 1: First-order inverted pendulum system model">
@@ -126,7 +126,7 @@ $$
 
 The nonlinear equations cannot be directly used with LQR for state-space modeling and optimal control problem solving. Therefore, we need to linearize the nonlinear dynamic equations.
 
-Let $\theta=\pi+\phi$, i.e., $\phi=\theta-\pi$. Choose state variables $X=[\begin{array}{cccc}x & \dot{x} & \phi & \dot{\phi}\end{array}]^T$, and linearize around $X_0=[\begin{array}{cccc}0 & 0 & 0 & 0\end{array}]^T$. The linearized dynamic equations are:
+Let $\theta=\pi+\phi$, i.e., $\phi=\theta-\pi$. Choose state variables $X=[x \ \dot{x} \ \phi \ \dot{\phi}]^T$, and linearize around $X_0=[0 \ 0 \ 0 \ 0]^T$. The linearized dynamic equations are:
 
 $$\begin{equation}
 (M+m)\ddot{x}+b\dot{x}-ml\ddot{\phi}=u
@@ -138,7 +138,7 @@ $$\begin{equation}
 
 ## State-Space Expression of the First-Order Inverted Pendulum System
 
-Based on the linearized dynamic equations, we obtain the continuous-domain state-space expression $\dot{X}=AX+Bu$, where $X=[\begin{array}{cccc}x & \dot{x} & \phi & \dot{\phi}\end{array}]^T$, and A, B matrices are:
+Based on the linearized dynamic equations, we obtain the continuous-domain state-space expression $\dot{X}=AX+Bu$, where $X=[x \ \dot{x} \ \phi \ \dot{\phi}]^T$, and A, B matrices are:
 
 $$
 A =
@@ -172,7 +172,7 @@ $$
 
 ## Control Results
 
-Since we linearized the nonlinear state equations near the vertical upward position of the pendulum, we choose initial states where the pendulum deviates slightly from the vertical upward direction. Tests show that the system converges stably when the initial state $\phi(0)\in [-0.2\pi, 0.2\pi]$. The result for $\phi(0)=0.2\pi$, $X_0=[\begin{array}{cccc}0 & 0 & 0.2\pi & 0\end{array}]^T$ is shown below:
+Since we linearized the nonlinear state equations near the vertical upward position of the pendulum, we choose initial states where the pendulum deviates slightly from the vertical upward direction. Tests show that the system converges stably when the initial state $\phi(0)\in [-0.2\pi, 0.2\pi]$. The result for $\phi(0)=0.2\pi$, $X_0=[0 \ 0 \ 0.2\pi \ 0]^T$ is shown below:
 
 <p align="center">
   <img src="./figures/result.gif" alt="Figure 3: LQR control result with initial 36° deviation from vertical upward direction">
